@@ -43,7 +43,7 @@ Okay so now, enter the following commands in your command prompt/terminal:
 
 ```
 git clone https://github.com/stupid-melon/subreddit-analytics-bot
-cd subreddit-analytics
+cd subreddit-analytics-bot
 pip install -r requirements.txt
 ```
 (Replace `pip` with `pip3` if you are on linux or mac)
@@ -84,7 +84,7 @@ Now save the file and close both, the command prompt/terminal window as well as 
 Now whenever you want to use this program, just open up a command prompt/terminal window and enter:
 
 ```
-cd subreddit-analytics
+cd subreddit-analytics-bot
 python main.py
 ```
 
@@ -95,7 +95,7 @@ python main.py
 If you ever want to change the configuration, enter in command prompt/termnial:
 
 ```
-cd subreddit-analytics
+cd subreddit-analytics-bot
 start config.txt
 ```
 
