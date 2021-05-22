@@ -1,9 +1,12 @@
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font
+import colorama
+from colorama import Fore, Back, Style
 import time as t
 import praw
 import os
+colorama.init()
 
 
 
@@ -146,7 +149,7 @@ def make_excel():
     if not os.path.exists( os.path.dirname(xl_file_path) ):
         os.makedirs( os.path.dirname(xl_file_path) )
     wb.save(xl_file_path)
-    print(f'Saved the data at "{xl_file_path}"\n')
+    print(f'Saved the data at {Fore.GREEN}{xl_file_path}{Fore.RESET}\n')
 
 
 
@@ -163,10 +166,11 @@ config_file_path = os.path.join( os.path.dirname(__file__),'config.txt' )
 # Gets the client id and secret
 with open(config_file_path, 'r') as config:
     _, client_id, _, client_secret, _, is_ask_sub, _, sub, _ = config.read().split('"')
-    try:
-        is_ask_sub = bool(is_ask_sub)
-    except:
-        is_ask_sub = True
+
+if is_ask_sub == 'False':
+    is_ask_sub = False
+else:
+    is_ask_sub = True
 
 reddit = praw.Reddit(client_id = client_id,
 client_secret = client_secret,
@@ -218,32 +222,32 @@ ops = sort_dict(ops)
 word_count = sort_dict(word_count)
 
 # Sub info
-print('\n============================== SUBREDDIT INFO ==============================\n')
-print(f'Subreddit: r/{sub.display_name}')
-print(f'Total Members: {handle_value(sub.subscribers)}')
-print(f'18+ : {over18}')
-print(f'Time created: {t.asctime(t.localtime(sub.created))}')
-print(f'Posts gone through: {count}')
+print(f'\n{Fore.YELLOW}============================== SUBREDDIT INFO ==============================\n{Fore.RESET}')
+print(f'{Fore.CYAN}Subreddit:{Fore.RESET} r/{sub.display_name}')
+print(f'{Fore.CYAN}Total Members:{Fore.RESET} {handle_value(sub.subscribers)}')
+print(f'{Fore.CYAN}18+ :{Fore.RESET} {over18}')
+print(f'{Fore.CYAN}Time created:{Fore.RESET} {t.asctime(t.localtime(sub.created))}')
+print(f'{Fore.CYAN}Posts gone through:{Fore.RESET} {count}')
 
 # Top post info
 for top_post in sub.top(limit=1):
-    print(f'\n============================== TOP POST ==============================\n')
-    print(f'Title: {top_post.title}')
-    print(f'OP: u/{ ( str(top_post.author) ).lower() }')
-    print(f'Upvotes: {handle_value(top_post.ups)}')
-    print(f'Comments: {top_post.num_comments}')
-    print(f'Time posted: {t.asctime(t.localtime(top_post.created))}')
+    print(f'\n{Fore.YELLOW}============================== TOP POST ==============================\n{Fore.RESET}')
+    print(f'{Fore.CYAN}Title:{Fore.RESET} {top_post.title}')
+    print(f'{Fore.CYAN}OP:{Fore.RESET} u/{ ( str(top_post.author) ).lower() }')
+    print(f'{Fore.CYAN}Upvotes:{Fore.RESET} {handle_value(top_post.ups)}')
+    print(f'{Fore.CYAN}Comments:{Fore.RESET} {top_post.num_comments}')
+    print(f'{Fore.CYAN}Time posted:{Fore.RESET} {t.asctime(t.localtime(top_post.created))}')
 
 # Averages
-print(f'\n============================== AVERAGES ==============================\n')
-print(f'Average upvotes of the top {count} posts: {handle_value(total_ups//count)}')
-print(f'Average comments of the top {count} posts: {handle_value(total_coms//count)}')
-print(f'Average time of posting: {t.asctime(t.localtime(total_time//count))}')
+print(f'\n{Fore.YELLOW}============================== AVERAGES ==============================\n{Fore.RESET}')
+print(f'{Fore.CYAN}Average upvotes of the top {count} posts:{Fore.RESET} {handle_value(total_ups//count)}')
+print(f'{Fore.CYAN}Average comments of the top {count} posts:{Fore.RESET} {handle_value(total_coms//count)}')
+print(f'{Fore.CYAN}Average time of posting:{Fore.RESET} {t.asctime(t.localtime(total_time//count))}')
 
 # Top OPs
 poster_count = 1
-print(f'\n============================== TOP POSTERS ==============================')
-print(f'\nRank ) OP : Number of posts : Total Upvotes Gained\n')
+print(f'\n{Fore.YELLOW}============================== TOP POSTERS =============================={Fore.RESET}')
+print(f'\n{Fore.RED}Rank{Fore.RESET} ) {Fore.RED}OP{Fore.RESET} : {Fore.RED}Number of posts{Fore.RESET} : {Fore.RED}Total Upvotes Gained{Fore.RESET}\n')
 for key in list(ops.keys())[0:10]:
     print(f'{poster_count}) u/{key} : {ops[key]} : {handle_value(upvotes_count[key])}')
     poster_count += 1
@@ -251,8 +255,8 @@ print(f'\n.........and {len(ops) - 10} more')
 
 # Top Words
 word_count_int = 1
-print(f'\n============================== TOP WORDS USED ==============================')
-print(f'\nRank ) Word : Times the word has been used\n')
+print(f'\n{Fore.YELLOW}============================== TOP WORDS USED =============================={Fore.RESET}')
+print(f'\n{Fore.RED}Rank{Fore.RESET} ) {Fore.RED}Word{Fore.RESET} : {Fore.RED}Times the word has been used{Fore.RESET}\n')
 for key in list(word_count.keys())[0:10]:
     print(f'{word_count_int}) {key} : {word_count[key]}')
     word_count_int += 1
