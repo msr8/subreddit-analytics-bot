@@ -56,7 +56,7 @@ Now that we have installed everything, its now time to set the configurations. I
 
 (If you are on windows)
 ```
-start config.txt
+config.txt
 ```
 
 (If you are on mac/linux)
